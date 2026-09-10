@@ -14,8 +14,9 @@ test/records/
 # 内部开发文档（非开源内容）
 TASKS.md
 
-# 截图工具与产物（图文版已内嵌在 README.html，无需入库）
+# 本地脚本与产物
 screenshots/
+.push-watch.sh
 
 # 系统文件
 .DS_Store
