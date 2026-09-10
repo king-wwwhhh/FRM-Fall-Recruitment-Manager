@@ -25,5 +25,7 @@ contextBridge.exposeInMainWorld('api', {
   deliveriesGet: () => ipcRenderer.invoke('deliveries:get'),
   deliveriesSave: (db) => ipcRenderer.invoke('deliveries:save', db),
   // 通用
-  openLink: (url) => ipcRenderer.invoke('link:open', url)
+  openLink: (url) => ipcRenderer.invoke('link:open', url),
+  // 设置页「配置教程」按钮：应用内打开图文教程窗口
+  openSetupGuide: () => ipcRenderer.invoke('app:open-setup-guide')
 });
