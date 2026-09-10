@@ -8,14 +8,12 @@
 
 ## 🌐 在线下载 / 部署上线（普通用户推荐）
 
-本应用是**本地桌面程序**：网站只负责分发安装包，用户下载后在**自己电脑上**安装运行，邮箱凭据和全部数据都留在本地，不经过任何服务器，因此**无需账号、无需鉴权**。
+本应用是**本地桌面程序**：网站只负责分发源码压缩包，用户下载后在**自己电脑上**解压运行，邮箱凭据和全部数据都留在本地，不经过任何服务器，因此**无需账号、无需鉴权**。
 
-- **下载安装包**：前往 [GitHub Releases](https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases)，选择对应系统（Windows 下载 `秋招管家-Setup-x.x.x.exe`、macOS 下载 `.dmg`、Linux 下载 `.AppImage`）双击安装即可。
-- **落地页（一键跳转下载）**：[https://king-wwwhhh.github.io/FRM-Fall-Recruitment-Manager/](https://king-wwwhhh.github.io/FRM-Fall-Recruitment-Manager/) —— 静态首页，含各平台下载按钮与图文配置教程入口，由 [GitHub Pages](./.github/workflows/pages.yml) 自动发布。
-- 安装后首次打开，点右上角**设置**按教程填入你自己的 QQ 邮箱授权码和 API Key（详见应用内「📖 配置教程」或 [`renderer/setup-guide.html`](./renderer/setup-guide.html)）。
-- 安装包**不含任何预置密钥**：`config.json` / `data/` 仅在用户本机首次配置时生成，不会随安装包分发，也不会进版本库。
-
-> 开发者想从源码运行，见下方「🚀 部署过程」。发布新版本只需打一个 `v*` 标签推送到仓库，[GitHub Actions](./.github/workflows/release.yml) 会自动构建 Windows / macOS / Linux 三大平台安装包并发布到 Releases。
+- **下载（一步到位）**：访问落地页 [https://king-wwwhhh.github.io/FRM-Fall-Recruitment-Manager/](https://king-wwwhhh.github.io/FRM-Fall-Recruitment-Manager/)，点「下载 Windows 版（ZIP）」拿到源码压缩包；解压后**双击 `启动.bat`** 即可（首次会自动装依赖并启动）。压缩包即 GitHub 仓库的源码归档，不含任何预置密钥。
+- **落地页（GitHub Pages）**：静态首页，由 [GitHub Pages](./.github/workflows/pages.yml) 在推送 `main` 且 `docs/` 变动时自动发布。
+- 首次打开应用，点右上角**设置**按教程填入你自己的 QQ 邮箱授权码和 API Key（详见应用内「📖 配置教程」弹窗）。
+- `config.json` / `data/` 仅在用户本机首次配置时生成，已在 `.gitignore` 中，**不会进版本库、不会随压缩包分发**。
 
 ---
 
@@ -157,7 +155,7 @@ npm start
 
 **QQ 邮箱授权码获取**：QQ 邮箱 → 设置 → 账号 → 开启 **IMAP/SMTP 服务** → 按提示拿到 16 位授权码。注意这是授权码，**不是 QQ 密码**。
 
-> 💡 设置弹窗底部有「📖 配置教程」按钮，点开即可在**应用内窗口**查看图文教程（获取 QQ 邮箱授权码 + 申请大模型 API Key 的完整步骤）。详细文档见 [`renderer/setup-guide.html`](./renderer/setup-guide.html)。
+> 💡 设置弹窗底部有「📖 配置教程」按钮，点开即可在**弹窗**里查看分步图文教程（获取 QQ 邮箱授权码 + 申请大模型 API Key 的完整步骤）。
 
 配置保存在项目根目录 `config.json`（可用 `config.example.json` 复制改名）。该文件已被 `.gitignore` 排除，不会进版本库。
 
@@ -271,7 +269,7 @@ electron . --disable-gpu --disable-gpu-compositing --use-angle=swiftshader
 - [x] 推理模型思维链适配 + JSON 截断抢救
 - [x] TLS 中间人代理容错
 - [x] 深度重扫（规则升级后补回历史邮件）
-- [x] 一键打包分发（GitHub Actions 自动构建 Win/macOS/Linux 安装包并发布到 Releases）
+- [x] GitHub Pages 落地页 + 源码 ZIP 分发（下载解压 → 双击启动.bat 即用，无需安装包/无需鉴权）
 - [ ] 投递记录：筛选 / 分组 / 排序 / 行高 / 填色
 - [ ] 投递时间升级为日期选择器，与日历视图联动
 

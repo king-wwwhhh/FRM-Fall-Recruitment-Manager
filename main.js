@@ -237,21 +237,3 @@ ipcMain.handle('link:open', async (_e, url) => {
   if (/^https?:\/\//i.test(url)) shell.openExternal(url);
   return { ok: true };
 });
-
-// 设置页「配置教程」按钮：应用内打开图文教程窗口（单例，避免重复打开）
-let guideWin = null;
-ipcMain.handle('app:open-setup-guide', () => {
-  if (guideWin && !guideWin.isDestroyed()) { guideWin.focus(); return { ok: true }; }
-  guideWin = new BrowserWindow({
-    width: 880,
-    height: 900,
-    parent: win,
-    title: '配置教程 · 秋招管家',
-    resizable: true,
-    webPreferences: { contextIsolation: true, nodeIntegration: false }
-  });
-  guideWin.setMenuBarVisibility(false);
-  guideWin.loadFile(path.join(__dirname, 'renderer', 'setup-guide.html'));
-  guideWin.on('closed', () => { guideWin = null; });
-  return { ok: true };
-});

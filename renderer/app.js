@@ -464,6 +464,7 @@ document.addEventListener('click', (ev) => {
     case 'btnSettings': openSettings(); break;
     case 'btnCfgCancel': document.getElementById('settingsModal').hidden = true; break;
     case 'btnCfgSave': saveSettings(); break;
+    case 'btnOpenGuide': { const m = document.getElementById('setupGuideModal'); if (m) m.hidden = false; break; }
     case 'btnTestMail': testMailConn(); break;
     case 'btnTestLLM': testLlmConn(); break;
     case 'btnAuthEye': toggleEye('cfgAuth', 'btnAuthEye'); break;
@@ -1090,6 +1091,16 @@ function testLlmConn() {
     });
   } else { setCfgResult('预览模式下无法测试，请用 .bat 启动应用', false); }
 }
+
+// ===== 配置教程弹窗：关闭（✕ 按钮 + 点击遮罩）=====
+(function setupGuideModal() {
+  const modal = document.getElementById('setupGuideModal');
+  if (!modal) return;
+  const close = () => { modal.hidden = true; };
+  const btn = document.getElementById('btnGuideClose');
+  if (btn) btn.addEventListener('click', close);
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+})();
 
 function doRefreshMail(force) {
   const info = document.getElementById('syncInfo');

@@ -1,5 +1,6 @@
 # 依赖与构建产物
 node_modules/
+dist/
 
 # 用户本地配置（含邮箱授权码、模型密钥等隐私，绝不入库）
 config.json

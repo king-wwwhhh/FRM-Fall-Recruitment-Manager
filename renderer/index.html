@@ -182,6 +182,64 @@
   </div>
 </div>
 
+<!-- 配置教程弹窗：设置页「📖 配置教程」按钮点击后弹出，展示分步步骤 -->
+<div class="modal-mask" id="setupGuideModal" hidden>
+  <div class="modal" style="width:700px;max-height:86vh;overflow:auto;text-align:left">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <h2 class="card-h" style="color:#A32D2D;margin:0">📖 配置教程</h2>
+      <span style="margin-left:auto;color:#8a857f;font-size:12px">获取授权码 · 申请 API Key</span>
+      <button class="mini-btn" id="btnGuideClose" type="button" style="flex:none">✕</button>
+    </div>
+    <div style="font-size:13.5px;color:#23211f;line-height:1.7">
+      <div style="background:#fff;border:1px solid #e7e3de;border-left:4px solid #A32D2D;border-radius:10px;padding:12px 16px;margin:8px 0 14px">
+        配好两样就能用：<b>① QQ 邮箱 IMAP 授权码</b>（让应用读取你的招聘邮件）+ <b>② 大模型 API Key</b>（把邮件解析成日历事件）。拿到后点应用「设置」填入保存即可。
+      </div>
+
+      <h3 style="color:#A32D2D;font-size:15px;margin:14px 0 6px">1 · 获取 QQ 邮箱 IMAP 授权码</h3>
+      <p style="margin:4px 0;color:#5b5753">应用通过 IMAP <b>只读</b>拉取招聘邮件，需要的是<b>授权码</b>，不是 QQ 密码。</p>
+      <ol style="margin:6px 0;padding-left:22px">
+        <li>浏览器打开 <a href="https://mail.qq.com" style="color:#2f6db5" target="_blank" rel="noopener">QQ 邮箱网页版</a> 并登录。</li>
+        <li>顶部「设置」→ 左侧「账户」。</li>
+        <li>找到「POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV 服务」一栏。</li>
+        <li>点「IMAP/SMTP 服务」后面的「开启」。</li>
+        <li>按提示用绑定手机发一条短信完成验证。</li>
+        <li>验证通过后页面显示 <b>16 位授权码</b>（形如 <code style="background:#f2efe9;border:1px solid #e7e3de;border-radius:6px;padding:1px 6px;font-size:12px">abcdwxyzefghijkl</code>），复制保存好。</li>
+      </ol>
+      <div style="background:#fff7e8;border:1px solid #f0d49a;border-radius:9px;padding:9px 13px;margin:8px 0;color:#7a5600;font-size:13px">⚠️ 填的是「授权码」不是 QQ 密码；改了 QQ 密码后授权码通常失效，需重新生成。</div>
+
+      <h3 style="color:#A32D2D;font-size:15px;margin:14px 0 6px">2 · 申请大模型 API Key（以 DeepSeek 为例）</h3>
+      <p style="margin:4px 0;color:#5b5753">把邮件交给「OpenAI 兼容」模型解析。硅基流动、阿里云百炼、OpenAI 等同理。</p>
+      <ol style="margin:6px 0;padding-left:22px">
+        <li>打开 <a href="https://platform.deepseek.com" style="color:#2f6db5" target="_blank" rel="noopener">DeepSeek 开放平台</a> 并登录。</li>
+        <li>右上角「API keys」→「创建 API key」。</li>
+        <li>复制生成的密钥（以 <code style="background:#f2efe9;border:1px solid #e7e3de;border-radius:6px;padding:1px 6px;font-size:12px">sk-</code> 开头，只显示一次）。</li>
+        <li>确认账户有可用余额（DeepSeek 需先充值，新用户一般有赠送额度）。</li>
+      </ol>
+      <div style="background:#eef8e8;border:1px solid #bfe0a6;border-radius:9px;padding:9px 13px;margin:8px 0;font-size:13px;color:#3b6d11">
+        ✅ 设置里对应关系：解析服务地址填 <code style="background:#fff;border:1px solid #cfe0a6;border-radius:6px;padding:1px 6px;font-size:12px">https://api.deepseek.com/v1</code>，解析密钥填刚复制的 <code style="background:#fff;border:1px solid #cfe0a6;border-radius:6px;padding:1px 6px;font-size:12px">sk-...</code>，模型名填 <code style="background:#fff;border:1px solid #cfe0a6;border-radius:6px;padding:1px 6px;font-size:12px">deepseek-v4-flash</code>。
+      </div>
+
+      <h3 style="color:#A32D2D;font-size:15px;margin:14px 0 6px">3 · 填进设置并保存</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;margin:6px 0">
+        <tr style="background:#f3f0ec"><th style="border:1px solid #e7e3de;padding:6px 8px;text-align:left">设置项</th><th style="border:1px solid #e7e3de;padding:6px 8px;text-align:left">填什么</th></tr>
+        <tr><td style="border:1px solid #e7e3de;padding:6px 8px">QQ 邮箱地址</td><td style="border:1px solid #e7e3de;padding:6px 8px">你的邮箱，如 123456@qq.com</td></tr>
+        <tr><td style="border:1px solid #e7e3de;padding:6px 8px">IMAP 授权码</td><td style="border:1px solid #e7e3de;padding:6px 8px">第 1 步的 16 位授权码</td></tr>
+        <tr><td style="border:1px solid #e7e3de;padding:6px 8px">解析服务地址</td><td style="border:1px solid #e7e3de;padding:6px 8px">https://api.deepseek.com/v1</td></tr>
+        <tr><td style="border:1px solid #e7e3de;padding:6px 8px">解析密钥</td><td style="border:1px solid #e7e3de;padding:6px 8px">sk-...（第 2 步申请的 Key）</td></tr>
+        <tr><td style="border:1px solid #e7e3de;padding:6px 8px">模型名</td><td style="border:1px solid #e7e3de;padding:6px 8px">deepseek-v4-flash（可改）</td></tr>
+        <tr><td style="border:1px solid #e7e3de;padding:6px 8px">拉取窗口（天）</td><td style="border:1px solid #e7e3de;padding:6px 8px">45</td></tr>
+      </table>
+      <p style="margin:4px 0;color:#5b5753">填完点「保存」。也可先点「测试邮箱连接」「测试解析服务」验证。</p>
+      <div style="background:#eef8e8;border:1px solid #bfe0a6;border-radius:9px;padding:9px 13px;margin:8px 0;font-size:13px;color:#3b6d11">✅ 配置写入项目根目录 <code style="background:#fff;border:1px solid #cfe0a6;border-radius:6px;padding:1px 6px;font-size:12px">config.json</code>，该文件已在 <code style="background:#fff;border:1px solid #cfe0a6;border-radius:6px;padding:1px 6px;font-size:12px">.gitignore</code> 中，<b>不上传仓库</b>，密钥只留本机。</div>
+
+      <h3 style="color:#A32D2D;font-size:15px;margin:14px 0 6px">4 · 常见问题</h3>
+      <p style="margin:4px 0;color:#5b5753"><b>连接报 <code style="background:#f2efe9;border:1px solid #e7e3de;border-radius:6px;padding:1px 6px;font-size:12px">self signed certificate in certificate chain</code>？</b> 网络出口有中间人代理，在 <code style="background:#f2efe9;border:1px solid #e7e3de;border-radius:6px;padding:1px 6px;font-size:12px">config.json</code> 加 <code style="background:#f2efe9;border:1px solid #e7e3de;border-radius:6px;padding:1px 6px;font-size:12px">"tlsInsecure": true</code> 后重启即可（仅受信任网络开启）。</p>
+      <p style="margin:4px 0;color:#5b5753"><b>授权码无效？</b> 确认是授权码非 QQ 密码、IMAP/SMTP 已开启、邮箱地址含 @qq.com，并可点「测试邮箱连接」看报错。</p>
+      <p style="margin:4px 0;color:#5b5753"><b>解析服务测试失败？</b> 确认 llmKey 以 sk- 开头无空格、llmBase 末尾带 /v1、账户有调用额度。</p>
+    </div>
+  </div>
+</div>
+
 <div class="modal-mask" id="importModal" hidden>
   <div class="modal" style="width:460px">
     <h2 class="card-h">导入备份</h2>
