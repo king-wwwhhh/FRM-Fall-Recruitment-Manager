@@ -46,12 +46,14 @@
     ],
     "win": {
       "target": ["nsis"],
-      "artifactName": "${productName}-Setup.${ext}"
+      "artifactName": "${productName}-Setup.${ext}",
+      "sign": false
     },
     "mac": {
       "target": ["dmg"],
       "category": "public.app-category.productivity",
-      "artifactName": "${productName}.${ext}"
+      "artifactName": "${productName}.${ext}",
+      "identity": null
     },
     "linux": {
       "target": ["AppImage"],
