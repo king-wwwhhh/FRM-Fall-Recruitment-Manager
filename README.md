@@ -11,6 +11,7 @@
 本应用是**本地桌面程序**：网站只负责分发安装包，用户下载后在**自己电脑上**安装运行，邮箱凭据和全部数据都留在本地，不经过任何服务器，因此**无需账号、无需鉴权**。
 
 - **下载安装包**：前往 [GitHub Releases](https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases)，选择对应系统（Windows 下载 `秋招管家-Setup-x.x.x.exe`、macOS 下载 `.dmg`、Linux 下载 `.AppImage`）双击安装即可。
+- **落地页（一键跳转下载）**：[https://king-wwwhhh.github.io/FRM-Fall-Recruitment-Manager/](https://king-wwwhhh.github.io/FRM-Fall-Recruitment-Manager/) —— 静态首页，含各平台下载按钮与图文配置教程入口，由 [GitHub Pages](./.github/workflows/pages.yml) 自动发布。
 - 安装后首次打开，点右上角**设置**按教程填入你自己的 QQ 邮箱授权码和 API Key（详见应用内「📖 配置教程」或 [`renderer/setup-guide.html`](./renderer/setup-guide.html)）。
 - 安装包**不含任何预置密钥**：`config.json` / `data/` 仅在用户本机首次配置时生成，不会随安装包分发，也不会进版本库。
 

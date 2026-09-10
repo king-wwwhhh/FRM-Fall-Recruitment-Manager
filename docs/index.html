@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>秋招管家 FRM · 本地运行的秋招投递管理工具</title>
+<style>
+  :root {
+    --bg: #f6f8fc;
+    --card: #ffffff;
+    --ink: #1f2733;
+    --muted: #5b6675;
+    --brand: #2f6bff;
+    --brand-ink: #ffffff;
+    --line: #e6ebf2;
+    --ok: #1f9d55;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+  header {
+    text-align: center;
+    padding: 72px 20px 40px;
+    background: linear-gradient(180deg, #eef3ff 0%, var(--bg) 100%);
+  }
+  .badge {
+    display: inline-block;
+    font-size: 13px;
+    color: var(--brand);
+    background: #e7efff;
+    border: 1px solid #d3e1ff;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  h1 { font-size: 40px; font-weight: 800; letter-spacing: -0.5px; }
+  h1 .accent { color: var(--brand); }
+  .sub { font-size: 18px; color: var(--muted); margin-top: 14px; }
+  .downloads {
+    display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+    margin-top: 32px;
+  }
+  .dl {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--brand); color: var(--brand-ink);
+    text-decoration: none; font-weight: 600; font-size: 15px;
+    padding: 13px 22px; border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(47,107,255,0.28);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .dl:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(47,107,255,0.34); }
+  .dl .os { font-size: 13px; opacity: .85; font-weight: 500; }
+  .dl.ghost {
+    background: var(--card); color: var(--brand);
+    border: 1px solid #cfe0ff; box-shadow: none;
+  }
+  section { padding: 26px 0; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 14px; padding: 20px;
+  }
+  .card .ic { font-size: 24px; }
+  .card h3 { font-size: 16px; margin: 10px 0 6px; }
+  .card p { font-size: 14px; color: var(--muted); }
+  .sec-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .sec-desc { color: var(--muted); margin-bottom: 18px; }
+  .secure {
+    background: #eefaf1; border: 1px solid #cdeed6; border-radius: 14px;
+    padding: 22px; display: flex; gap: 14px; align-items: flex-start;
+  }
+  .secure .ic { font-size: 26px; }
+  .secure h3 { color: var(--ok); font-size: 17px; margin-bottom: 4px; }
+  .secure p { color: #2f6b47; font-size: 14px; }
+  .note {
+    font-size: 13px; color: var(--muted);
+    background: #fff8e6; border: 1px solid #ffe6a3;
+    border-radius: 10px; padding: 12px 16px; margin-top: 16px;
+  }
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 36px 20px 56px; }
+  footer a { color: var(--brand); text-decoration: none; }
+  @media (max-width: 680px) {
+    .grid { grid-template-columns: 1fr; }
+    h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <span class="badge">🎯 秋招管家 · FRM</span>
+      <h1>秋招投递，<span class="accent">本地</span>一键理清</h1>
+      <p class="sub">连接 QQ 邮箱，自动把招聘邮件解析成日历事件与投递记录。<br/>数据只在你本机，无需注册，下载即用。</p>
+      <div class="downloads">
+        <a class="dl" href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases" target="_blank" rel="noopener">
+          ⬇️ 下载 Windows <span class="os">.exe</span>
+        </a>
+        <a class="dl" href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases" target="_blank" rel="noopener">
+          ⬇️ 下载 macOS <span class="os">.dmg</span>
+        </a>
+        <a class="dl" href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases" target="_blank" rel="noopener">
+          ⬇️ 下载 Linux <span class="os">.AppImage</span>
+        </a>
+        <a class="dl ghost" href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager" target="_blank" rel="noopener">
+          ⭐ 在 GitHub 查看源码
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section>
+      <h2 class="sec-title">为什么选它</h2>
+      <p class="sec-desc">不只是"测评提醒"——覆盖招聘全流程的八类邮件，且绝不编造时间。</p>
+      <div class="grid">
+        <div class="card">
+          <div class="ic">📥</div>
+          <h3>八类邮件全识别</h3>
+          <p>笔试、限时测评、面试邀约、简历完善、网申确认、offer、宣讲会、其他招聘相关，自动归一分类。</p>
+        </div>
+        <div class="card">
+          <div class="ic">🚫</div>
+          <h3>时间零推算</h3>
+          <p>邮件没写时间就标注「待定」，绝不替你"收信日+3天"编一个假截止时间害你错过 DDL。</p>
+        </div>
+        <div class="card">
+          <div class="ic">🧠</div>
+          <h3>推理模型适配</h3>
+          <p>针对 deepseek 等推理模型的思维链做了 token 与截断抢救，不会整批解析失败。</p>
+        </div>
+        <div class="card">
+          <div class="ic">🕐</div>
+          <h3>时区正确</h3>
+          <p>统一本地时区存储与显示，已修复旧版 UTC 慢 8 小时的问题。</p>
+        </div>
+        <div class="card">
+          <div class="ic">🔁</div>
+          <h3>深度重扫</h3>
+          <p>识别规则升级后用新规则重跑历史邮件，按 key+type 去重，不重复入库。</p>
+        </div>
+        <div class="card">
+          <div class="ic">🧩</div>
+          <h3>进度自动联动</h3>
+          <p>笔试/测评"完成并移除"后，自动更新对应投递记录的状态。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec-title">你的数据，只留在你电脑上</h2>
+      <p class="sec-desc">这是一款本地桌面应用，不是网页后台服务。</p>
+      <div class="secure">
+        <div class="ic">🔒</div>
+        <div>
+          <h3>隐私优先，无需账号</h3>
+          <p>邮箱以 IMAP <b>只读</b>方式拉取，不发送、不修改、不删除任何邮件；QQ 授权码与模型密钥只存本机 <code>config.json</code>，代码不预置、不上传任何服务器。每个用户运行自己的独立实例，因此<b>无需注册、无需登录鉴权</b>。</p>
+        </div>
+      </div>
+      <div class="note">
+        💡 首次打开后，点右上角「设置」→「📖 配置教程」，按图文步骤填入你自己的 QQ 邮箱授权码和 API Key 即可开始使用。<br/>
+        · macOS 用户若提示"无法验证开发者"，请右键 <b>.dmg</b> 选择「打开」绕过 Gatekeeper。<br/>
+        · Linux 用户下载 <b>.AppImage</b> 后执行 <code>chmod +x</code> 再双击运行。
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    秋招管家 FRM · 基于 Electron 的本地桌面应用 ·
+    <a href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases" target="_blank" rel="noopener">GitHub Releases 下载</a>
+  </footer>
+</body>
+</html>
