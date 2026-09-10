@@ -1,0 +1,22 @@
+# 依赖与构建产物
+node_modules/
+
+# 用户本地配置（含邮箱授权码、模型密钥等隐私，绝不入库）
+config.json
+
+# 本地数据（日历事件、投递记录、日志、备份——全是个人隐私数据）
+data/
+
+# 测试运行记录与日志
+test/records/
+*.log
+
+# 内部开发文档（非开源内容）
+TASKS.md
+
+# 截图工具与产物（图文版已内嵌在 README.html，无需入库）
+screenshots/
+
+# 系统文件
+.DS_Store
+Thumbs.db

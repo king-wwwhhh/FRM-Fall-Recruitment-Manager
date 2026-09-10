@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>秋招管家</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!--
+  投递记录 · 入口决策树（Task 1）
+  页面加载
+   └─ 默认显示 #view-calendar，隐藏 #view-delivery
+  点击 #btnDelivery
+   ├─ 当前=日历 → 显示 #view-delivery，按钮加 .active 选中态
+   └─ 当前=投递 → 显示 #view-calendar，按钮去 .active
+-->
+<header class="topbar">
+  <svg class="logo" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A32D2D" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+  <span class="app-title">秋招管家</span>
+  <button class="btn btn-primary" id="btnRefresh">刷新邮件</button>
+  <button class="btn" id="btnDeepScan" title="忽略水位线，重新解析近期全部邮件（识别规则升级后用它补回历史邮件）">深度重扫</button>
+  <button class="btn" id="btnAddOpen">+ 手动添加</button>
+  <button class="btn" id="btnDrawer">已完成 <span id="doneCount">(0)</span></button>
+  <button class="btn" id="btnSettings">设置</button>
+  <button class="btn" id="btnExport">导出备份</button>
+  <button class="btn" id="btnImport">导入恢复</button>
+  <button class="btn btn-delivery" id="btnDelivery">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M1.5 6h13M5.5 6v7.5"/></svg>投递记录
+  </button>
+  <span class="sync-info" id="syncInfo"></span>
+</header>
+
+<section id="view-calendar">
+<main class="layout">
+  <section id="bannerHost"></section>
+
+  <section class="card" id="todoCard">
+    <h2 class="card-h" style="color:#A32D2D">今天要处理</h2>
+    <div id="todoList"></div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <div class="cal-head">
+        <button class="mini-btn" id="btnPrevM">‹</button>
+        <h2 class="card-h nomargin" id="calTitle"></h2>
+        <button class="mini-btn" id="btnNextM">›</button>
+        <button class="mini-btn" id="btnToday">回今天</button>
+        <span class="cal-hint">固定笔试日整格标红 · 点击日期看当天</span>
+      </div>
+      <div class="cal-wrap"><table id="calTable" class="cal"></table></div>
+      <div class="legend">
+        <span><i class="lg-box"></i>笔试日整格标红</span>
+        <span><i class="lg-dot" style="background:#EF9F27"></i>测评</span>
+        <span><i class="lg-dot" style="background:#378ADD"></i>面试</span>
+        <span><i class="lg-dot" style="background:#639922"></i>简历完善</span>
+        <span><i class="lg-dot" style="background:#7F77DD"></i>网申</span>
+        <span><i class="lg-dot" style="background:#BA7517"></i>宣讲会</span>
+        <span><i class="lg-dot" style="background:#1D9E75"></i>offer</span>
+        <span style="color:#BA7517">标「待定」= 邮件未写明时间，点开可补填</span>
+      </div>
+    </section>
+
+    <section class="card" id="detailCard">
+      <div id="detailBody"><p class="muted">点击日历中的事件查看详情</p></div>
+    </section>
+  </div>
+</main>
+</section>
+
+<!--
+  投递记录 · 表格视图（Task 1 骨架）
+  工具栏：添加一行 / 字段管理 可用；筛选·分组·排序·行高·填色 占位置灰（后续版本）
+-->
+<section id="view-delivery" hidden>
+  <div class="tv-toolbar">
+    <button class="tv-tb tv-primary" id="dAddRow">⊞ 添加一行</button>
+    <span class="tv-sep"></span>
+    <span class="tv-pm">
+      <button class="tv-tb" id="dFieldsBtn">⊞ 字段管理</button>
+      <div class="tv-panel" id="dFieldPanel" hidden></div>
+    </span>
+    <button class="tv-tb tv-disabled" title="后续版本开放">⏷ 筛选</button>
+    <button class="tv-tb tv-disabled" title="后续版本开放">⛃ 分组</button>
+    <button class="tv-tb tv-disabled" title="后续版本开放">⇅ 排序</button>
+    <button class="tv-tb tv-disabled" title="后续版本开放">≡ 行高</button>
+    <button class="tv-tb tv-disabled" title="后续版本开放">◗ 填色</button>
+    <span class="tv-hint">灰色按钮本期不实现</span>
+  </div>
+  <div class="tv-card">
+    <div class="tv-scroll">
+      <table class="tv-table">
+        <thead><tr id="dThead"></tr></thead>
+        <tbody id="dTbody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="tv-mask" id="dImgMask" hidden>
+    <div class="tv-modal" id="dImgModal"></div>
+  </div>
+  <input type="file" id="dFileInput" accept="image/*" hidden>
+</section>
+
+<aside class="drawer" id="doneDrawer">
+  <div class="drawer-head">
+    <h2 class="card-h nomargin">已完成</h2>
+    <button class="mini-btn" id="btnDrawerClose">✕</button>
+  </div>
+  <div id="doneList"></div>
+</aside>
+
+<aside class="drawer" id="mailDrawer" style="width:420px">
+  <div class="drawer-head">
+    <h2 class="card-h nomargin">刷新详情 · 新邮件</h2>
+    <button class="mini-btn" id="btnMailClose">✕</button>
+  </div>
+  <div id="mailList"></div>
+</aside>
+
+<div class="modal-mask" id="addModal" hidden>
+  <div class="modal">
+    <h2 class="card-h">手动添加事件</h2>
+    <div class="form-grid">
+      <label>公司<input id="fCompany" placeholder="如：华为"></label>
+      <label>类型
+        <select id="fType">
+          <option value="exam">笔试</option>
+          <option value="assessment">测评</option>
+          <option value="interview">面试（含AI面试）</option>
+          <option value="resume">简历完善</option>
+          <option value="apply">网申投递</option>
+          <option value="offer">offer</option>
+          <option value="campus">宣讲会</option>
+          <option value="other">其他招聘事项</option>
+        </select>
+      </label>
+      <label>考试/窗口开始<input type="datetime-local" id="fExamAt"></label>
+      <label>截止时间<input type="datetime-local" id="fDeadline"></label>
+      <label>时长（分钟）<input type="number" id="fDur" value="120" min="0"></label>
+      <label class="span2">笔试链接<input id="fLink" placeholder="https://..."></label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="btnAddCancel">取消</button>
+      <button class="btn btn-primary" id="btnAddSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-mask" id="settingsModal" hidden>
+  <div class="modal" style="width:620px">
+    <h2 class="card-h">设置</h2>
+    <div class="form-grid">
+      <label>QQ 邮箱地址<input id="cfgUser" placeholder="例如 my@qq.com" autocomplete="off"></label>
+      <label>IMAP 授权码
+        <span style="display:flex;gap:6px">
+          <input id="cfgAuth" type="password" placeholder="16 位授权码" autocomplete="off" style="flex:1">
+          <button class="mini-btn" id="btnAuthEye" type="button" style="flex:none">显示</button>
+        </span>
+      </label>
+      <label>解析服务地址<input id="cfgLlmBase" placeholder="https://opencode.ai/zen/go/v1" autocomplete="off"></label>
+      <label>解析密钥
+        <span style="display:flex;gap:6px">
+          <input id="cfgLlmKey" type="password" placeholder="sk-..." autocomplete="off" style="flex:1">
+          <button class="mini-btn" id="btnLlmEye" type="button" style="flex:none">显示</button>
+        </span>
+      </label>
+      <label>模型名<input id="cfgLlmModel" placeholder="deepseek-v4-flash" autocomplete="off"></label>
+      <label>拉取窗口（天）<input id="cfgRecentDays" type="number" min="1" max="180" placeholder="45"></label>
+      <label class="span2" style="flex-direction:row;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px">
+        <input id="cfgAutoRefresh" type="checkbox" style="width:16px;height:16px;accent-color:var(--exam)"> 启动时自动刷新（打开应用即检查一次邮箱）
+      </label>
+    </div>
+    <div class="modal-actions" style="gap:8px;flex-wrap:wrap">
+      <span id="cfgTestResult" style="font-size:12px;color:var(--text2);margin-right:auto;align-self:center"></span>
+      <button class="btn" id="btnTestMail">测试邮箱连接</button>
+      <button class="btn" id="btnTestLLM">测试解析服务</button>
+      <button class="btn" id="btnCfgCancel">取消</button>
+      <button class="btn btn-primary" id="btnCfgSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-mask" id="importModal" hidden>
+  <div class="modal" style="width:460px">
+    <h2 class="card-h">导入备份</h2>
+    <p class="muted">选择导入方式（任选一种方式后，会弹出系统文件选择框）：</p>
+    <p class="muted" style="margin-top:6px">▸ <b>合并</b>：按事件 id 去重后并入现有日历，不覆盖当前事件。<br>▸ <b>覆盖</b>：用备份文件整体替换当前事件（导入前会自动把现有数据备份到 data/backup/）。</p>
+    <div class="modal-actions">
+      <button class="btn" id="btnImpCancel">取消</button>
+      <button class="btn" id="btnImpMerge">合并导入</button>
+      <button class="btn btn-primary" id="btnImpOverwrite">覆盖导入</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+<script src="../lib/deliveryLogic.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

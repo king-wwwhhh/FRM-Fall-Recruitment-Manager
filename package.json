@@ -1,0 +1,24 @@
+{
+  "name": "interview-calendar",
+  "version": "1.0.0",
+  "description": "秋招管家 - QQ邮箱面试邮件自动解析 + 日历管理 + 投递记录",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/run-all.js",
+    "smoke": "electron smoke.js",
+    "deep-scan": "node deep-scan.js",
+    "test-parse": "node test-parse.js",
+    "tls-diag": "node tls-diag.js",
+    "verify-ui": "electron verify-ui.js"
+  },
+  "author": "king",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^31.7.7"
+  },
+  "dependencies": {
+    "imapflow": "^1.0.171",
+    "mailparser": "^3.7.1"
+  }
+}

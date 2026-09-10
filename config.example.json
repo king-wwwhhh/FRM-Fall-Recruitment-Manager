@@ -1,0 +1,10 @@
+{
+  "user": "your-qq-number@qq.com",
+  "auth": "在这里填 QQ 邮箱 IMAP 授权码（16位，QQ邮箱→设置→账号→开启IMAP/SMTP服务获取，不是QQ密码）",
+  "llmBase": "https://api.deepseek.com/v1",
+  "llmKey": "sk-在这里填你的 OpenAI 兼容接口密钥",
+  "llmModel": "deepseek-v4-flash",
+  "recentDays": 45,
+  "autoRefresh": true,
+  "tlsInsecure": false
+}
