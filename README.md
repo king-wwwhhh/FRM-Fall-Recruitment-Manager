@@ -108,7 +108,7 @@ Windows / macOS 均可（Electron 跨平台）。
 ### 第 1 步 · 克隆仓库
 
 ```bash
-git clone https://github.com/king-wwwhhh/recruit-manager.git
+git clone https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager.git
 cd recruit-manager
 ```
 
