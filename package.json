@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "秋招管家 - QQ邮箱面试邮件自动解析 + 日历管理 + 投递记录",
   "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager.git"
+  },
   "scripts": {
     "start": "electron .",
     "test": "node test/run-all.js",
@@ -42,16 +46,16 @@
     ],
     "win": {
       "target": ["nsis"],
-      "artifactName": "${productName}-Setup-${version}.${ext}"
+      "artifactName": "${productName}-Setup.${ext}"
     },
     "mac": {
       "target": ["dmg"],
       "category": "public.app-category.productivity",
-      "artifactName": "${productName}-${version}.${ext}"
+      "artifactName": "${productName}.${ext}"
     },
     "linux": {
       "target": ["AppImage"],
-      "artifactName": "${productName}-${version}.${ext}"
+      "artifactName": "${productName}.${ext}"
     },
     "nsis": {
       "oneClick": false,

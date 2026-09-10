@@ -99,13 +99,13 @@
       <h1>秋招投递，<span class="accent">本地</span>一键理清</h1>
       <p class="sub">连接 QQ 邮箱，自动把招聘邮件解析成日历事件与投递记录。<br/>数据只在你本机，无需注册，下载即用。</p>
       <div class="downloads">
-        <a class="dl" data-platform="win" href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases" rel="noopener">
+        <a class="dl" href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases/latest/download/%E7%A7%8B%E6%8B%9B%E7%AE%A1%E5%AE%B6-Setup.exe" rel="noopener">
           ⬇️ 下载 Windows <span class="os">.exe</span>
         </a>
-        <a class="dl" data-platform="mac" href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases" rel="noopener">
+        <a class="dl" href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases/latest/download/%E7%A7%8B%E6%8B%9B%E7%AE%A1%E5%AE%B6.dmg" rel="noopener">
           ⬇️ 下载 macOS <span class="os">.dmg</span>
         </a>
-        <a class="dl" data-platform="linux" href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases" rel="noopener">
+        <a class="dl" href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases/latest/download/%E7%A7%8B%E6%8B%9B%E7%AE%A1%E5%AE%B6.AppImage" rel="noopener">
           ⬇️ 下载 Linux <span class="os">.AppImage</span>
         </a>
         <a class="dl ghost" href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager" target="_blank" rel="noopener">
@@ -175,28 +175,5 @@
     秋招管家 FRM · 基于 Electron 的本地桌面应用 ·
     <a href="https://github.com/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases" target="_blank" rel="noopener">GitHub Releases 下载</a>
   </footer>
-
-  <script>
-    // 自动从最新 Release 拉取各平台安装包直链，点击即下载（失败则回退到 Releases 页）
-    (function () {
-      var API = "https://api.github.com/repos/king-wwwhhh/FRM-Fall-Recruitment-Manager/releases/latest";
-      function pick(assets, ext) {
-        for (var i = 0; i < assets.length; i++) {
-          if (assets[i].name.toLowerCase().endsWith(ext)) return assets[i].browser_download_url;
-        }
-        return null;
-      }
-      fetch(API).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
-        if (!data || !data.assets) return;
-        var links = { win: pick(data.assets, ".exe"), mac: pick(data.assets, ".dmg"), linux: pick(data.assets, ".appimage") };
-        Object.keys(links).forEach(function (plat) {
-          var url = links[plat];
-          if (!url) return;
-          var el = document.querySelector('[data-platform="' + plat + '"]');
-          if (el) { el.href = url; el.setAttribute("download", ""); }
-        });
-      }).catch(function () {});
-    })();
-  </script>
 </body>
 </html>
