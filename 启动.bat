@@ -45,13 +45,17 @@ if not exist "%ELECTRON_EXE%" (
   exit /b 1
 )
 
-rem ---------- 2) 后台静默启动，输出写入日志；失败才弹窗 ----------
-start "" cmd /c ""%ELECTRON_EXE%" . > "%LOG%" 2>&1"
+rem ---------- 2) 静默启动（隐藏控制台，仅出错才弹窗）----------
+powershell -NoProfile -Command "Start-Process -WindowStyle Hidden -FilePath '%ELECTRON_EXE%' -ArgumentList '.' -RedirectStandardOutput '%LOG%' -RedirectStandardError '%LOG%'" 2>nul
+if errorlevel 1 (
+  rem PowerShell 不可用时的兜底：直接启动（无日志）
+  start "" "%ELECTRON_EXE%" .
+)
 ping -n 8 >nul
 tasklist /FI "IMAGENAME eq electron.exe" 2>nul | find /I "electron.exe" >nul
 if errorlevel 1 (
-  rem 进程已退出：多为无 GPU / 崩溃，自动改用软渲染重试一次
-  start "" cmd /c ""%ELECTRON_EXE%" . --disable-gpu --use-angle=swiftshader >> "%LOG%" 2>&1"
+  rem 进程已退出：多为无 GPU，自动改用软渲染重试一次
+  powershell -NoProfile -Command "Start-Process -WindowStyle Hidden -FilePath '%ELECTRON_EXE%' -ArgumentList '.','--disable-gpu','--use-angle=swiftshader' -RedirectStandardOutput '%LOG%' -RedirectStandardError '%LOG%'" 2>nul
   ping -n 6 >nul
   tasklist /FI "IMAGENAME eq electron.exe" 2>nul | find /I "electron.exe" >nul
   if errorlevel 1 (
